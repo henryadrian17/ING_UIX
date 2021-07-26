@@ -18,6 +18,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import org.json.JSONObject;
+
 /**
  * Class that handles authentication w/ login credentials and retrieves user information.
  */
@@ -32,22 +34,33 @@ public class LoginDataSource {
             StrictMode.ThreadPolicy policy =
                     new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
-            // TODO: Mi logica
-            String Json = "{'user':'" + username + "','passwd':'" + password + "'}";
             OkHttpClient client = new OkHttpClient();
             RequestBody formBody = new FormBody.Builder()
                     .add("user", username)
                     .add("passwd", password)
                     .build();
             Request request = new Request.Builder()
-                    .url("http://192.168.10.101/api/auth/login")
+                    .url("http://167.71.105.232/api/auth/login")
                     .post(formBody)
                     .build();
             Response response = client.newCall(request).execute();
+            JSONObject obj = new JSONObject(response.body().string());
+            String token = obj.getString("access_token");
+            Request request2 = new Request.Builder()
+                    .url("http://167.71.105.232/api/auth/me")
+                    .addHeader("Authorization", "Bearer "+token)
+                    .build();
+            Response response2 = client.newCall(request2).execute();
+            System.out.println("Paso la conversion 0");
+            JSONObject obj2 = new JSONObject(response2.body().string());
+            System.out.println("Paso la conversion");
+            String id = obj2.getString("ID");
+            String name = obj2.getString("username");
+            System.out.println(name);
             LoggedInUser fakeUser =
                     new LoggedInUser(
-                            java.util.UUID.randomUUID().toString(),
-                            "Jane Doe");
+                            id,
+                            name, token);
             System.out.println(fakeUser);
             return new Result.Success<>(fakeUser);
         } catch (Exception e) {

@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -115,15 +116,17 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),Menu.class));
-                /*loadingProgressBar.setVisibility(View.VISIBLE);
+                loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());*/
+                        passwordEditText.getText().toString());
             }
         });
     }
 
     private void updateUiWithUser(LoggedInUserView model) {
-
+        SharedPreferences.Editor editor = getSharedPreferences("PRIVADO", MODE_PRIVATE).edit();
+        editor.putString("Token", model.getToken());
+        editor.apply();
         String welcome = getString(R.string.welcome) + model.getDisplayName();
 //        // TODO : initiate successful logged in experience
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
