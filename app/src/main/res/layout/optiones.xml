@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
+
+    <Button
+        android:id="@+id/bttnOpcion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#9A513100"
+        android:fontFamily="sans-serif"
+        android:onClick="selectOptionOfAnswer"
+        android:padding="5dp"
+        android:text="Lorem Ipsum is simply dummy te Lorem Ipsum is simply dummy t"
+        android:textAllCaps="false"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="15dp" />
+</LinearLayout>
